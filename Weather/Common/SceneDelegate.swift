@@ -19,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let ee = LocationOnboardingViewModel()
-        window.rootViewController = LocationOnboardingView(locationOnboardingViewModel: ee)
+        //let ee = SettingsOnboardingViewModel()
+        window.rootViewController = CityWeatherView()
         window.makeKeyAndVisible()
         self.window = window
     }

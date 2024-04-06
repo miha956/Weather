@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
     
     func addSubViews(_ views: UIView...) {
         for i in views {

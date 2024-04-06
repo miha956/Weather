@@ -13,7 +13,7 @@ final class LocationOnboardingView: UIViewController {
     
     // MARK: Properties
     
-    let locationOnboardingViewModel: LocationOnboardingViewModelProtocol
+    private let modelView: LocationOnboardingViewModelProtocol
     
     // MARK: SubViews
     
@@ -69,8 +69,8 @@ final class LocationOnboardingView: UIViewController {
         setupView()
     }
     
-    init(locationOnboardingViewModel: LocationOnboardingViewModelProtocol) {
-        self.locationOnboardingViewModel = locationOnboardingViewModel
+    init(modelView: LocationOnboardingViewModelProtocol) {
+        self.modelView = modelView
         super.init(nibName: nil, bundle: nil)
     }
     
