@@ -16,7 +16,7 @@ final class CurrentWeatherView: UIView {
     private let cityNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .black
         label.font = .systemFont(ofSize: 40)
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -27,14 +27,13 @@ final class CurrentWeatherView: UIView {
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .black
         label.font = .systemFont(ofSize: 20)
-        label.alpha = 0
         return label
     }()
     private let weatherDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .black
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
@@ -73,7 +72,8 @@ final class CurrentWeatherView: UIView {
         }
         tempMaxMinLabel.snp.makeConstraints { make in
             make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(10)
-            make.bottom.equalToSuperview().offset(10)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview { $0.snp.bottom }
         }
     }
     

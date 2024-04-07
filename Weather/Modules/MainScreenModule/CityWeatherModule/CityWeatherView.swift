@@ -14,15 +14,14 @@ class CityWeatherView: UIViewController {
     
     private var currentWeatherView: CurrentWeatherView = {
         let view = CurrentWeatherView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private let dayliWeatherTableView : UITableView = {
+    private lazy var dayliWeatherTableView : UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
         tableView.registerCell(cellClass: HourlyTableViewCell.self)
         tableView.registerCell(cellClass: DailyWeatherTableViewCell.self)
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     private lazy var addCityBarButton: UIBarButtonItem = {
@@ -57,7 +56,7 @@ class CityWeatherView: UIViewController {
         addSubViews(currentWeatherView,dayliWeatherTableView)
         
         currentWeatherView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
+            make.top.equalToSuperview().offset(50)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().inset(20)
         }
@@ -67,6 +66,8 @@ class CityWeatherView: UIViewController {
             make.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }
+        
+        currentWeatherView.confingView(cityName: "5345345", temperature: "45345345", weatherDescription: "3456456", tempMax: "345345", tempMin: "35634564")
     }
 }
 
@@ -74,8 +75,17 @@ class CityWeatherView: UIViewController {
 
 extension CityWeatherView: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch indexPath.section {
+        case 0:
+            return 100
+        default:
+            return 50
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,11 +99,12 @@ extension CityWeatherView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let hourlyWeatherCell = tableView.dequeue(cellClass: HourlyTableViewCell.self, indexPath: indexPath)
-        let dailyWeatherCell = tableView.dequeue(cellClass: DailyWeatherTableViewCell.self, indexPath: indexPath)
+        let hourlyWeatherCell = tableView.dequeue(cellClass: HourlyTableViewCell.self)
+        let dailyWeatherCell = tableView.dequeue(cellClass: DailyWeatherTableViewCell.self)
         
         switch indexPath.section {
         case 1:
+            dailyWeatherCell.config(title: "ggggg")
             return dailyWeatherCell
         default:
             hourlyWeatherCell.collectionViewDataSourceDelegate(dataSourceDelegate: self)
@@ -106,8 +117,12 @@ extension CityWeatherView: UITableViewDelegate, UITableViewDataSource {
 
 extension CityWeatherView: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        24
+        return 24
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -115,6 +130,5 @@ extension CityWeatherView: UICollectionViewDataSource, UICollectionViewDelegate 
         collectionHourlyCell.configView(hour: "123", weatherImage: UIImage(systemName: "house")!, temperature: "23")
         return collectionHourlyCell
     }
-    
     
 }

@@ -13,11 +13,11 @@ public extension UITableView {
         self.register(T.self, forCellReuseIdentifier: T.defaultIdentifier)
     }
     
-    func dequeue<T: UITableViewCell>(cellClass: T.Type, indexPath: IndexPath) -> T {
-        return self.dequeue(withIdentifier: cellClass.defaultIdentifier, indexPath: indexPath)
+    func dequeue<T: UITableViewCell>(cellClass: T.Type) -> T {
+        return self.dequeue(withIdentifier: cellClass.defaultIdentifier)
     }
 
-    private func dequeue<T: UITableViewCell>(withIdentifier id: String, indexPath: IndexPath) -> T {
-        return self.dequeueReusableCell(withIdentifier: id, for: indexPath) as! T
+    private func dequeue<T: UITableViewCell>(withIdentifier id: String) -> T {
+        return self.dequeueReusableCell(withIdentifier: id) as! T
     }
 }

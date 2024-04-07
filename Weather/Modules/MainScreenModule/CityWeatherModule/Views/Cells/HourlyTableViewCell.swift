@@ -14,11 +14,14 @@ final class HourlyTableViewCell: UITableViewCell {
     private let hourlyCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 10
+        layout.itemSize = .init(width: 30, height: 80)
         layout.sectionInset.left = 10
         layout.sectionInset.right = 10
+        layout.minimumLineSpacing = 15
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.registerCell(cellClass: HourlyCollectionViewCell.self)
+        collectionView.showsHorizontalScrollIndicator = false
+        
         return collectionView
     }()
     
@@ -38,9 +41,8 @@ final class HourlyTableViewCell: UITableViewCell {
     private func setupView() {
         
         contentView.addSubview(hourlyCollectionView)
-        
         hourlyCollectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(contentView)
         }
     }
     

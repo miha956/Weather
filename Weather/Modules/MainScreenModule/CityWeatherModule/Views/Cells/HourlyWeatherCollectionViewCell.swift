@@ -15,7 +15,7 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     
     private let hourLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = .black
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 17)
         return label
@@ -23,13 +23,12 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     private let tempLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .white
+        label.textColor = .black
         label.textAlignment = .center
         return label
     }()
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = .init(systemName: "nosign")
         imageView.tintColor = .red
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -51,21 +50,20 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         
         contentView.addSubViews(hourLabel,weatherImageView,tempLabel)
+        
     
         hourLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(contentView)
+            make.trailing.leading.equalTo(contentView)
         }
         weatherImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(30)
             make.top.equalTo(hourLabel.snp.bottom).offset(5)
-            make.centerX.centerY.equalToSuperview()
+            make.width.height.equalTo(25)
+            make.centerX.equalTo(contentView)
         }
         tempLabel.snp.makeConstraints { make in
             make.top.equalTo(weatherImageView.snp.bottom).offset(5)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(5)
-            
+            make.trailing.leading.equalTo(contentView)
         }
     }
     
