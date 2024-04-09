@@ -17,7 +17,7 @@ final class CurrentWeatherView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
-        label.font = .systemFont(ofSize: 40)
+        label.font = .systemFont(ofSize: 25)
         label.textAlignment = .center
         label.numberOfLines = 2
         label.adjustsFontSizeToFitWidth = true
@@ -28,18 +28,30 @@ final class CurrentWeatherView: UIView {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 40)
         return label
     }()
     private let weatherDescriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 20)
         return label
     }()
-    private let tempMaxMinLabel: UILabel = {
+    private let tempMinLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
         return label
+    }()
+    private let tempMaxLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20)
+        return label
+    }()
+    private let tempStackview: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        return stackView
     }()
     
     // MARK: lifeCycle
@@ -56,7 +68,10 @@ final class CurrentWeatherView: UIView {
     // MARK: Private
     
     private func setupView() {
-        addSubViews(cityNameLabel,temperatureLabel,weatherDescriptionLabel,tempMaxMinLabel)
+        
+        addSubViews(cityNameLabel,temperatureLabel,weatherDescriptionLabel,tempStackview)
+        tempStackview.addArrangedSubview(tempMaxLabel)
+        tempStackview.addArrangedSubview(tempMinLabel)
         
         cityNameLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(20)
@@ -70,7 +85,7 @@ final class CurrentWeatherView: UIView {
             make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
-        tempMaxMinLabel.snp.makeConstraints { make in
+        tempStackview.snp.makeConstraints { make in
             make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview { $0.snp.bottom }
@@ -83,7 +98,8 @@ final class CurrentWeatherView: UIView {
         cityNameLabel.text = cityName
         temperatureLabel.text = "\(temperature)\u{00B0}"
         weatherDescriptionLabel.text = weatherDescription
-        tempMaxMinLabel.text = "Макс.:\(tempMax)\u{00B0},Мин.:\(tempMin)\u{00B0}"
+        tempMaxLabel.text = "Макс.:\(tempMax)\u{00B0},"
+        tempMinLabel.text = "Мин.:\(tempMin)\u{00B0}"
     }
     
 }

@@ -49,21 +49,22 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     
     private func setupView() {
         
+        backgroundColor = .clear
         contentView.addSubViews(hourLabel,weatherImageView,tempLabel)
         
-    
         hourLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView)
-            make.trailing.leading.equalTo(contentView)
+            make.top.equalToSuperview()
+            make.trailing.leading.equalToSuperview()
         }
         weatherImageView.snp.makeConstraints { make in
-            make.top.equalTo(hourLabel.snp.bottom).offset(5)
-            make.width.height.equalTo(25)
-            make.centerX.equalTo(contentView)
+            make.top.equalTo(hourLabel.snp.bottom).offset(7)
+            make.width.height.equalTo(20)
+            make.centerX.equalToSuperview()
         }
         tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(weatherImageView.snp.bottom).offset(5)
-            make.trailing.leading.equalTo(contentView)
+            make.top.equalTo(weatherImageView.snp.bottom).offset(7)
+            make.trailing.leading.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
     }
     

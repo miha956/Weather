@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A9A5C7A82BC4739700F5AA0A /* MainScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A5C7A72BC4739700F5AA0A /* MainScreenCoordinator.swift */; };
+		A9A5C7AA2BC4753500F5AA0A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A5C7A92BC4753500F5AA0A /* AppCoordinator.swift */; };
+		A9A5C7AC2BC4765600F5AA0A /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A5C7AB2BC4765600F5AA0A /* OnboardingCoordinator.swift */; };
+		A9A5C7AE2BC5A79300F5AA0A /* WeatherNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A5C7AD2BC5A79300F5AA0A /* WeatherNetworkManager.swift */; };
+		A9A5C7B72BC5BC6300F5AA0A /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9A5C7B62BC5BC6300F5AA0A /* SnapKit */; };
+		A9A5C7B92BC5BC6300F5AA0A /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A9A5C7B82BC5BC6300F5AA0A /* SnapKit-Dynamic */; };
 		A9D798702BBC846100E3DDF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7986F2BBC846100E3DDF8 /* AppDelegate.swift */; };
 		A9D798722BBC846100E3DDF8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798712BBC846100E3DDF8 /* SceneDelegate.swift */; };
 		A9D7987A2BBC846100E3DDF8 /* Weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A9D798782BBC846100E3DDF8 /* Weather.xcdatamodeld */; };
 		A9D7987C2BBC846300E3DDF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9D7987B2BBC846300E3DDF8 /* Assets.xcassets */; };
 		A9D7987F2BBC846300E3DDF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9D7987D2BBC846300E3DDF8 /* LaunchScreen.storyboard */; };
-		A9D7988F2BBC898600E3DDF8 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7988E2BBC898600E3DDF8 /* CoordinatorProtocol.swift */; };
+		A9D7988F2BBC898600E3DDF8 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7988E2BBC898600E3DDF8 /* Coordinator.swift */; };
 		A9D798932BBC92B300E3DDF8 /* LocationOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798922BBC92B300E3DDF8 /* LocationOnboardingView.swift */; };
 		A9D798962BBC938200E3DDF8 /* LocationOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798952BBC938200E3DDF8 /* LocationOnboardingViewModel.swift */; };
-		A9D7989C2BBDD50800E3DDF8 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A9D7989B2BBDD50800E3DDF8 /* SnapKit */; };
-		A9D7989E2BBDD50800E3DDF8 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = A9D7989D2BBDD50800E3DDF8 /* SnapKit-Dynamic */; };
 		A9D798A02BBDE06F00E3DDF8 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D7989F2BBDE06F00E3DDF8 /* UIViewController.swift */; };
 		A9D798A22BBE9B4200E3DDF8 /* SettingsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798A12BBE9B4200E3DDF8 /* SettingsOnboardingViewModel.swift */; };
 		A9D798A42BBE9B6700E3DDF8 /* SettingsOnboardiingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798A32BBE9B6700E3DDF8 /* SettingsOnboardiingView.swift */; };
@@ -37,7 +41,24 @@
 		A9D798D62BC1C70B00E3DDF8 /* UICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D798D52BC1C70B00E3DDF8 /* UICollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		A9A5C7B02BC5BA9900F5AA0A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A9A5C7A72BC4739700F5AA0A /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
+		A9A5C7A92BC4753500F5AA0A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		A9A5C7AB2BC4765600F5AA0A /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
+		A9A5C7AD2BC5A79300F5AA0A /* WeatherNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkManager.swift; sourceTree = "<group>"; };
 		A9D7986C2BBC846100E3DDF8 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9D7986F2BBC846100E3DDF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A9D798712BBC846100E3DDF8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,7 +66,7 @@
 		A9D7987B2BBC846300E3DDF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9D7987E2BBC846300E3DDF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A9D798802BBC846300E3DDF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A9D7988E2BBC898600E3DDF8 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		A9D7988E2BBC898600E3DDF8 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A9D798922BBC92B300E3DDF8 /* LocationOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationOnboardingView.swift; sourceTree = "<group>"; };
 		A9D798952BBC938200E3DDF8 /* LocationOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationOnboardingViewModel.swift; sourceTree = "<group>"; };
 		A9D7989F2BBDE06F00E3DDF8 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -73,19 +94,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9D7989C2BBDD50800E3DDF8 /* SnapKit in Frameworks */,
-				A9D7989E2BBDD50800E3DDF8 /* SnapKit-Dynamic in Frameworks */,
+				A9A5C7B72BC5BC6300F5AA0A /* SnapKit in Frameworks */,
+				A9A5C7B92BC5BC6300F5AA0A /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A9A5C7A42BC46C4600F5AA0A /* TableHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TableHeaderView;
+			sourceTree = "<group>";
+		};
+		A9A5C7B12BC5BBC400F5AA0A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A9D798632BBC846100E3DDF8 = {
 			isa = PBXGroup;
 			children = (
 				A9D7986E2BBC846100E3DDF8 /* Weather */,
 				A9D7986D2BBC846100E3DDF8 /* Products */,
+				A9A5C7B12BC5BBC400F5AA0A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +136,7 @@
 		A9D7986E2BBC846100E3DDF8 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				A9D798802BBC846300E3DDF8 /* Info.plist */,
 				A9D798862BBC850C00E3DDF8 /* Common */,
 				A9D798972BBC95AA00E3DDF8 /* Helpers */,
 				A9D798AE2BBF1DF200E3DDF8 /* Resources */,
@@ -108,7 +145,6 @@
 				A9D798872BBC853B00E3DDF8 /* Coordinators */,
 				A9D798B62BBFFE4F00E3DDF8 /* Models */,
 				A9D798882BBC858A00E3DDF8 /* Modules */,
-				A9D798802BBC846300E3DDF8 /* Info.plist */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -125,7 +161,8 @@
 		A9D798872BBC853B00E3DDF8 /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				A9D7988E2BBC898600E3DDF8 /* CoordinatorProtocol.swift */,
+				A9D7988E2BBC898600E3DDF8 /* Coordinator.swift */,
+				A9A5C7A92BC4753500F5AA0A /* AppCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -144,6 +181,7 @@
 		A9D798892BBC859700E3DDF8 /* MainScreenModule */ = {
 			isa = PBXGroup;
 			children = (
+				A9A5C7A72BC4739700F5AA0A /* MainScreenCoordinator.swift */,
 				A9D798C22BC1965000E3DDF8 /* CityWeatherModule */,
 				A9D798C12BC1948D00E3DDF8 /* SideMenuModule */,
 			);
@@ -167,8 +205,9 @@
 		A9D7988C2BBC866700E3DDF8 /* OnboardingScreenModule */ = {
 			isa = PBXGroup;
 			children = (
-				A9D798912BBC923500E3DDF8 /* SettingsOnboardingModule */,
+				A9A5C7AB2BC4765600F5AA0A /* OnboardingCoordinator.swift */,
 				A9D798902BBC91EF00E3DDF8 /* LocationOnboardingModule */,
+				A9D798912BBC923500E3DDF8 /* SettingsOnboardingModule */,
 			);
 			path = OnboardingScreenModule;
 			sourceTree = "<group>";
@@ -203,6 +242,7 @@
 		A9D798982BBC95DB00E3DDF8 /* NetworkManager */ = {
 			isa = PBXGroup;
 			children = (
+				A9A5C7AD2BC5A79300F5AA0A /* WeatherNetworkManager.swift */,
 			);
 			path = NetworkManager;
 			sourceTree = "<group>";
@@ -307,8 +347,9 @@
 		A9D798C82BC19CD500E3DDF8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A9D798CB2BC1BE0000E3DDF8 /* Cells */,
 				A9D798C92BC19F6300E3DDF8 /* CurrentWeatherView.swift */,
+				A9D798CB2BC1BE0000E3DDF8 /* Cells */,
+				A9A5C7A42BC46C4600F5AA0A /* TableHeaderView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -333,6 +374,7 @@
 				A9D798682BBC846100E3DDF8 /* Sources */,
 				A9D798692BBC846100E3DDF8 /* Frameworks */,
 				A9D7986A2BBC846100E3DDF8 /* Resources */,
+				A9A5C7B02BC5BA9900F5AA0A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -340,8 +382,8 @@
 			);
 			name = Weather;
 			packageProductDependencies = (
-				A9D7989B2BBDD50800E3DDF8 /* SnapKit */,
-				A9D7989D2BBDD50800E3DDF8 /* SnapKit-Dynamic */,
+				A9A5C7B62BC5BC6300F5AA0A /* SnapKit */,
+				A9A5C7B82BC5BC6300F5AA0A /* SnapKit-Dynamic */,
 			);
 			productName = Weather;
 			productReference = A9D7986C2BBC846100E3DDF8 /* Weather.app */;
@@ -372,7 +414,7 @@
 			);
 			mainGroup = A9D798632BBC846100E3DDF8;
 			packageReferences = (
-				A9D7989A2BBDD50800E3DDF8 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A9A5C7B52BC5BC6300F5AA0A /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = A9D7986D2BBC846100E3DDF8 /* Products */;
 			projectDirPath = "";
@@ -410,12 +452,15 @@
 				A9D798D12BC1C48A00E3DDF8 /* HourlyTableViewCell.swift in Sources */,
 				A9D798A42BBE9B6700E3DDF8 /* SettingsOnboardiingView.swift in Sources */,
 				A9D798962BBC938200E3DDF8 /* LocationOnboardingViewModel.swift in Sources */,
+				A9A5C7AA2BC4753500F5AA0A /* AppCoordinator.swift in Sources */,
 				A9D798BB2BC002D000E3DDF8 /* CoreDataManager.swift in Sources */,
+				A9A5C7A82BC4739700F5AA0A /* MainScreenCoordinator.swift in Sources */,
 				A9D7987A2BBC846100E3DDF8 /* Weather.xcdatamodeld in Sources */,
 				A9D798D32BC1C6B800E3DDF8 /* UICollectionView.swift in Sources */,
 				A9D798C42BC1969B00E3DDF8 /* CityWeatherView.swift in Sources */,
 				A9D798932BBC92B300E3DDF8 /* LocationOnboardingView.swift in Sources */,
-				A9D7988F2BBC898600E3DDF8 /* CoordinatorProtocol.swift in Sources */,
+				A9A5C7AC2BC4765600F5AA0A /* OnboardingCoordinator.swift in Sources */,
+				A9D7988F2BBC898600E3DDF8 /* Coordinator.swift in Sources */,
 				A9D798A02BBDE06F00E3DDF8 /* UIViewController.swift in Sources */,
 				A9D798702BBC846100E3DDF8 /* AppDelegate.swift in Sources */,
 				A9D798A22BBE9B4200E3DDF8 /* SettingsOnboardingViewModel.swift in Sources */,
@@ -423,6 +468,7 @@
 				A9D798B82BBFFE9000E3DDF8 /* UserAppSettings.swift in Sources */,
 				A9D798722BBC846100E3DDF8 /* SceneDelegate.swift in Sources */,
 				A9D798C02BC0786700E3DDF8 /* UIView.swift in Sources */,
+				A9A5C7AE2BC5A79300F5AA0A /* WeatherNetworkManager.swift in Sources */,
 				A9D798B32BBF28B300E3DDF8 /* UITableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -644,7 +690,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A9D7989A2BBDD50800E3DDF8 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		A9A5C7B52BC5BC6300F5AA0A /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -655,14 +701,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A9D7989B2BBDD50800E3DDF8 /* SnapKit */ = {
+		A9A5C7B62BC5BC6300F5AA0A /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A9D7989A2BBDD50800E3DDF8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = A9A5C7B52BC5BC6300F5AA0A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		A9D7989D2BBDD50800E3DDF8 /* SnapKit-Dynamic */ = {
+		A9A5C7B82BC5BC6300F5AA0A /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A9D7989A2BBDD50800E3DDF8 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = A9A5C7B52BC5BC6300F5AA0A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */

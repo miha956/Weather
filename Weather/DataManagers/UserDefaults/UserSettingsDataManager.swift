@@ -30,11 +30,11 @@ enum UserSettingsDatabaseErrors: Error {
 protocol UserSettingsDataManagerProtocol {
 
     
-    func loadSettings() -> UserAppSettings
+    func loadSettings(completion: (Result<UserAppSettings, UserSettingsDatabaseErrors>) -> Void)
     func saveSettings(userAppSettings: UserAppSettings)
 }
 
-final class UserSettingsDataManager {
+final class UserSettingsDataManager: UserSettingsDataManagerProtocol {
     
     
 
@@ -67,7 +67,7 @@ final class UserSettingsDataManager {
             case .success:
                 print("we already have settings")
             case .failure:
-                var userAppSettings = UserAppSettings()
+                let userAppSettings = UserAppSettings()
                 saveSettings(userAppSettings: userAppSettings)
             }
         }

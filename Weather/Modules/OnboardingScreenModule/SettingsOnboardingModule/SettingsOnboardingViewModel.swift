@@ -27,8 +27,8 @@ final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
     
     // MARK: Properties
     
-    private let userSettingsDataManager = UserSettingsDataManager()
-    
+    var userSettingsDataManager: UserSettingsDataManagerProtocol
+    var coordinator: OnboardingCoordinator?
     
     // MARK: - DataSource
     
@@ -49,6 +49,13 @@ final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
     
     var currentSettings: [Int] = []
     
+    init(userSettingsDataManager: UserSettingsDataManagerProtocol) {
+        self.userSettingsDataManager = userSettingsDataManager
+    }
+    
+    deinit {
+        print("deinit SettingsOnboardingViewModel")
+    }
     
     func loadSettints() {
 

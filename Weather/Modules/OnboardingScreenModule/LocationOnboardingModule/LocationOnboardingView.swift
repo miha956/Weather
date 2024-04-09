@@ -8,12 +8,13 @@
 import Foundation
 import UIKit
 import SnapKit
+import CoreLocation
 
 final class LocationOnboardingView: UIViewController {
     
     // MARK: Properties
     
-    private let modelView: LocationOnboardingViewModelProtocol
+    private let viewModel: LocationOnboardingViewModelProtocol
     
     // MARK: SubViews
     
@@ -45,20 +46,22 @@ final class LocationOnboardingView: UIViewController {
         view.lineBreakMode = .byWordWrapping
         return view
     }()
-    private let confirmUsingLocationButton: UIButton = {
-        let view = UIButton(type: .system)
-        view.setTitle("Разрешить использование геолокации", for: .normal)
-        view.backgroundColor = .systemGray
-        view.tintColor = .white
-        view.layer.cornerRadius = 10
-        view.clipsToBounds = true
-        return view
+    private lazy var confirmUsingLocationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Разрешить использование геолокации", for: .normal)
+        button.backgroundColor = .systemGray
+        button.tintColor = .white
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(requestLocationPermissionButtonTapped), for: .touchUpInside)
+        return button
     }()
-    private let cencelUsingLocationButton: UIButton = {
-        let view = UIButton(type: .system)
-        view.setTitle("Пропустить", for: .normal)
-        view.tintColor = .systemBlue
-        return view
+    private lazy var cencelUsingLocationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Пропустить", for: .normal)
+        button.tintColor = .systemBlue
+        button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     
@@ -69,9 +72,13 @@ final class LocationOnboardingView: UIViewController {
         setupView()
     }
     
-    init(modelView: LocationOnboardingViewModelProtocol) {
-        self.modelView = modelView
+    init(viewModel: LocationOnboardingViewModelProtocol) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    deinit {
+        print("deinit LocationOnboardingView")
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +87,14 @@ final class LocationOnboardingView: UIViewController {
     
     // MARK: Actions
     
+    @objc func skipButtonTapped() {
+        viewModel.goToSettings()
+    }
+    
+    @objc func requestLocationPermissionButtonTapped() {
+        viewModel.requestLocationPermission(locationManagerDelegate: self)
+        
+    }
     
     // MARK: Private
     
@@ -121,5 +136,27 @@ final class LocationOnboardingView: UIViewController {
         })
         
     }
+}
+
+extension LocationOnboardingView: CLLocationManagerDelegate {
     
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+            switch status {
+            case .authorizedWhenInUse:
+                print("Разрешение на использование геолокации получено")
+                viewModel.goToSettings()
+            case .denied:
+                print("Пользователь отклонил запрос на использование геолокации")
+                viewModel.goToSettings()
+            case .notDetermined:
+                print("Пользователь еще не принял решение по запросу использования геолокации")
+            case .restricted:
+                print("Пользователь не может изменить разрешения на использование геолокации")
+            case .authorizedAlways:
+                print("Пользователь предоставил приложению постоянный доступ к геолокации")
+                viewModel.goToSettings()
+            @unknown default:
+                print("Неизвестный статус разрешения на использование геолокации")
+            }
+        }
 }
