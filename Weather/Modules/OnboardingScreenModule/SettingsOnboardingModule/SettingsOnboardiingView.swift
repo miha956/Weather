@@ -15,18 +15,18 @@ class SettingsOnboardiingView: UIViewController {
     private let viewModel: SettingsOnboardingViewModelProtocol
     
     // MARK: Subviews
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.font = .systemFont(ofSize: 18, weight: .bold)
-        return label
-    }()
     private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         view.layer.cornerRadius = 10
         view.clipsToBounds = true
         return view
+    }()
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        return label
     }()
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -79,7 +79,7 @@ class SettingsOnboardiingView: UIViewController {
         viewModel.loadSettints()
         view.backgroundColor = .white
         
-        applySettingsButton.setTitle(viewModel.content.buttonTitle, for: .normal)
+        applySettingsButton.setTitle(viewModel.buttonTitle, for: .normal)
         titleLabel.text = viewModel.viewTitle
         view.addSubview(contentView)
         contentView.addSubViews(titleLabel,
@@ -114,7 +114,7 @@ class SettingsOnboardiingView: UIViewController {
     }
     
     private func configureContentStackView() {
-        for (index, title) in viewModel.content.optionsTitles.enumerated() {
+        for (index, title) in viewModel.viewContent.settingsTitle.enumerated() {
             let stackView = UIStackView()
             stackView.axis = .horizontal
             stackView.spacing = 5
@@ -130,8 +130,8 @@ class SettingsOnboardiingView: UIViewController {
             segmentedControl.selectedSegmentTintColor = .systemBlue
             segmentedControl.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
             
-            let options = viewModel.content.options[index]
-            for (optionIndex, option) in options.enumerated() {
+            let options = viewModel.viewContent.optionsTitles[index]
+            for (optionIndex, option) in options.options.enumerated() {
                 segmentedControl.insertSegment(withTitle: "\(option)", at: optionIndex, animated: false)
             }
             segmentedControl.tag = index

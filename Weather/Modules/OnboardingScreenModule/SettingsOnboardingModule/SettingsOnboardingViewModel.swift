@@ -10,10 +10,9 @@ import UIKit
 
 protocol SettingsOnboardingViewModelProtocol {
     
-    var content: SettingsModel {get}
+    var viewContent: SettingsModel {get}
     var buttonTitle: String {get}
     var viewTitle: String {get}
-    var numberOfItems: Int {get}
     var currentSettings: [Int] {get set}
     
     func loadSettints()
@@ -23,7 +22,7 @@ protocol SettingsOnboardingViewModelProtocol {
     
 }
 
-final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
+final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {    
     
     // MARK: Properties
     
@@ -32,19 +31,16 @@ final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
     
     // MARK: - DataSource
     
-    var numberOfItems: Int {
-        return content.optionsTitles.count
+    var viewContent: SettingsModel {
+        SettingsModel()
     }
+
     var viewTitle: String {
-        return content.settingsTitle
+        return viewContent.viewTitle
     }
     
     var buttonTitle: String {
-        return content.buttonTitle
-    }
-    
-    var content: SettingsModel {
-        SettingsModel()
+        return viewContent.buttonTitle
     }
     
     var currentSettings: [Int] = []
@@ -61,8 +57,11 @@ final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
 
         userSettingsDataManager.loadSettings { result in
             switch result {
-            case .success(var loadedSettings):
-                currentSettings = loadedSettings.settingsArray
+            case .success(let settings):
+                currentSettings.append(settings.temperature.rawValue)
+                currentSettings.append(settings.windSpeed.rawValue)
+                currentSettings.append(settings.timeFormat.rawValue)
+                currentSettings.append(settings.notificationsIsEnabled.rawValue)
             case .failure(_): break
             }
         }
@@ -74,12 +73,12 @@ final class SettingsOnboardingViewModel: SettingsOnboardingViewModelProtocol {
     
     func saveSettings() {
         var userSettings = UserAppSettings()
-        userSettings.temperature = currentSettings[0]
-        userSettings.windSpeed = currentSettings[1]
-        userSettings.timeFormat = currentSettings[2]
-        userSettings.notificationsIsEnabled = currentSettings[3]
-        
+        userSettings.temperature = Temperature.allCases[currentSettings[0]]
+        userSettings.windSpeed = WindSpeed.allCases[currentSettings[1]]
+        userSettings.timeFormat = TimeFormat.allCases[currentSettings[2]]
+        userSettings.notificationsIsEnabled = NotificationsState.allCases[currentSettings[3]]
         userSettingsDataManager.saveSettings(userAppSettings: userSettings)
+        coordinator?.showMainView()
     }
 }
 

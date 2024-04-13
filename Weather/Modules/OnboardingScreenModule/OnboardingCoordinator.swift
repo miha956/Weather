@@ -35,5 +35,9 @@ class OnboardingCoordinator: Coordinator {
         let viewController = SettingsOnboardiingView(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
+    func showMainView() {
+        let coordinator = MainScreenCoordinator(navigationController: navigationController)
+        coordinator.start()
+    }
     
 }

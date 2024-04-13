@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-class CityWeatherView: UIViewController {
+class LocationWeatherView: UIViewController {
     
     // MARK: Properties
     
-    let viewModel: CityWeatherViewModelProtocol
+    let viewModel: LocationWeatherViewModelProtocol
 
     // MARK: SubViews
     
@@ -52,7 +52,7 @@ class CityWeatherView: UIViewController {
         setupView()
     }
     
-    init(viewModel: CityWeatherViewModelProtocol) {
+    init(viewModel: LocationWeatherViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -86,7 +86,7 @@ class CityWeatherView: UIViewController {
 
     // MARK: TableView delegate&dataSourse
 
-extension CityWeatherView: UITableViewDelegate, UITableViewDataSource {
+extension LocationWeatherView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
@@ -131,7 +131,7 @@ extension CityWeatherView: UITableViewDelegate, UITableViewDataSource {
 
     // MARK: CollectionView delegate&dataSourse
 
-extension CityWeatherView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension LocationWeatherView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

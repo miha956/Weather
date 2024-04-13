@@ -8,20 +8,41 @@
 import Foundation
 
 enum SettingsTitles: String, CaseIterable {
-    case temprature = "Температура"
+    case temperature = "Температура"
     case windSpeed = "Скорость ветра"
     case timeFormat = "Формат времени"
     case notifications = "Уведомления"
 
 }
 
+enum SettingsOptions: CaseIterable {
+    
+    case temperature
+    case windSpeed
+    case timeFormat
+    case notifications
+    
+    var options: [String] {
+        switch self {
+        case .temperature:
+            return Temperature.allCases.map { $0.value }
+        case .windSpeed:
+            return WindSpeed.allCases.map { $0.value }
+        case .timeFormat:
+            return TimeFormat.allCases.map { $0.value }
+        case .notifications:
+            return NotificationsState.allCases.map { $0.value }
+        }
+    }
+}
+
 
 
 struct SettingsModel {
     
-    let settingsTitle = "Настройки"
-    let optionsTitles = SettingsTitles.allCases
-    let options: [[String]] = [["C","F"],["Mi","Km"],["12","24"],["On","Off"]]
+    let viewTitle = "Настройки"
+    let settingsTitle = SettingsTitles.allCases
+    let optionsTitles = SettingsOptions.allCases
     let buttonTitle = "Установить"
     
 

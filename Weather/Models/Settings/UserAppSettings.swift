@@ -9,39 +9,55 @@ import Foundation
 
 struct UserAppSettings: Codable {
     
-    var temperature: Int = Temperature.celcius.rawValue
-    var windSpeed: Int = WindSpeed.metersPerSecond.rawValue
-    var timeFormat: Int = TimeFormat.twentyFourHour.rawValue
-    var notificationsIsEnabled: Int = NotificationsState.off.rawValue
-    
-    lazy var settingsArray: [Int] = [temperature,windSpeed,timeFormat,notificationsIsEnabled]
-    
+    var temperature: Temperature = .celcius
+    var windSpeed: WindSpeed = .metersPerSecond
+    var timeFormat: TimeFormat = .twentyFourHour
+    var notificationsIsEnabled: NotificationsState = .off
+
 }
 
 enum Temperature: Int, CaseIterable, Codable {
     case celcius
-    case farenheit
+    case fahrenheit
     
-    var name: String {
+    var value: String {
         switch self {
         case .celcius:
             return "C"
-        case .farenheit:
+        case .fahrenheit:
             return "F"
+        }
+    }
+    var unit: String {
+        switch self {
+        case .celcius:
+            return "celsius"
+        case .fahrenheit:
+            return "fahrenheit"
         }
     }
 }
 
+
 enum WindSpeed: Int, CaseIterable, Codable {
+    
     case metersPerSecond
     case kilometersPerHour
     
-    var name: String {
+    var value: String {
         switch self {
         case .metersPerSecond:
             return "Mi"
         case .kilometersPerHour:
             return "Km"
+        }
+    }
+    var unit: String {
+        switch self {
+        case .metersPerSecond:
+            return "ms"
+        case .kilometersPerHour:
+            return "kmh"
         }
     }
 }
@@ -50,7 +66,7 @@ enum TimeFormat: Int, CaseIterable, Codable {
     case twelveHour
     case twentyFourHour
     
-    var name: String {
+    var value: String {
         switch self {
         case .twelveHour:
             return "12"
@@ -64,12 +80,12 @@ enum NotificationsState: Int, CaseIterable, Codable {
     case on
     case off
     
-    var value: Bool {
+    var value: String {
         switch self {
         case .on:
-            return true
+            return "On"
         case .off:
-            return false
+            return "Of"
         }
     }
 }

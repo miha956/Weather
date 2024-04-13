@@ -17,9 +17,13 @@ class MainScreenCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
+    func goToSearchLocationView() {
+        
+    }
+    
     func start() {
-        let viewModel = CityWeatherViewModel()
-        let viewController = CityWeatherView(viewModel: viewModel)
-        navigationController.pushViewController(viewController, animated: true)
+        let viewModel = LocationWeatherViewModel()
+        let viewController = LocationWeatherView(viewModel: viewModel)
+        navigationController.setViewControllers([viewController], animated: true)
     }
 }

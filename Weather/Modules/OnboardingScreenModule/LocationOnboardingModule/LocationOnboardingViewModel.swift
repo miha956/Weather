@@ -18,6 +18,7 @@ protocol LocationOnboardingViewModelProtocol {
 final class LocationOnboardingViewModel: LocationOnboardingViewModelProtocol {
     
     var coordinator: OnboardingCoordinator?
+    
     private let locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         return locationManager
