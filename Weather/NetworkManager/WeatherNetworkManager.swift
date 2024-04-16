@@ -11,8 +11,7 @@ import CoreLocation
 
 protocol WeatherNetworkManagerProtocol {
     
-    func fetchCurrentWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherTodayModel, Error>) -> Void)
-    func fetchDailyWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherDailyModel, Error>) -> Void)
+    func fetchWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherModel, Error>) -> Void)
 }
 
 final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
@@ -32,25 +31,20 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
     }
     
     enum Endpoint {
-        case currentWeather
-        case dailyWeather
+        case weather
         case deocoding
         
         fileprivate var requestParameters: String {
             switch self {
-            case .currentWeather:
-                return "current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,cloud_cover,surface_pressure&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,cloud_cover&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=Europe%2FMoscow&forecast_days=2"
-            case .dailyWeather:
-                return "daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,sunshine_duration,precipitation_sum,precipitation_probability_max&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=Europe%2FMoscow&forecast_days=10"
+            case .weather:
+                return "current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,cloud_cover,surface_pressure&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,cloud_cover&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,sunshine_duration,precipitation_sum,precipitation_probability_max&wind_speed_unit=ms&timezone=Europe%2FMoscow&forecast_days=10"
             case .deocoding:
                 return "count=10&format=json"
             }
         }
         fileprivate var url: String {
             switch self {
-            case .currentWeather:
-                return "\(ApiURL.forcast.baseURL)\(requestParameters)"
-            case .dailyWeather:
+            case .weather:
                 return "\(ApiURL.forcast.baseURL)\(requestParameters)"
             case .deocoding:
                 return "\(ApiURL.geocoding.baseURL)\(requestParameters)"
@@ -94,33 +88,16 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
                     let data = try JSONDecoder().decode(T.self, from: data)
                     response(data, nil)
                   } catch let jsonError {
-                    print("Некорретный ответ", jsonError)
+                      response(nil, jsonError)
                   }
               case .failure(let error):
-                  print("Ошибка получения данных \(error.localizedDescription)")
                   response(nil, error)
               }
           }
       }
     
-    func fetchCurrentWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherTodayModel, Error>) -> Void) {
-        
-        let url = "\(Endpoint.currentWeather.url)&latitude=\(latitude)&longitude=\(longitude)"
-        decodeData(urlString: url) { (data: WeatherTodayModel?, error) in
-            if let error = error {
-                complition(.failure(error))
-            } else {
-                guard let data = data else { return }
-                complition(.success(data))
-            }
-        }
-    }
-    
-    func fetchDailyWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherDailyModel, Error>) -> Void) {
-        
-        let url = "\(Endpoint.dailyWeather.url)&latitude=\(latitude)&longitude=\(longitude)"
-        
-        decodeData(urlString: url) { (data: WeatherDailyModel?, error) in
+    private func fetchData<T: Decodable>(url: String, complition: @escaping(Result<T, Error>) -> Void) {
+        decodeData(urlString: url) { (data: T?, error) in
             if let error = error {
                 complition(.failure(error))
             } else {
@@ -131,21 +108,18 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
                 complition(.success(data))
             }
         }
+    }
+    
+    func fetchWeatherData(latitude: String, longitude: String, complition: @escaping(Result<WeatherModel, Error>) -> Void) {
+        let url = "\(Endpoint.weather.url)&latitude=\(latitude)&longitude=\(longitude)"
+        fetchData(url: url, complition: complition)
     }
     
     func fetchLocationGeocoding(name: String, complition: @escaping(Result<GeocodingLocationsModel, Error>) -> Void) {
         let url = "\(Endpoint.deocoding.url)&name=\(name)"
-        print(url)
-        decodeData(urlString: url) { (data: GeocodingLocationsModel?, error) in
-            if let error = error {
-                complition(.failure(error))
-            } else {
-                guard let data = data else {
-                    complition(.failure(NetworkMangerError.noData))
-                    return
-                }
-                complition(.success(data))
-            }
-        }
+        fetchData(url: url, complition: complition)
     }
 }
+
+
+

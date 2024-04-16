@@ -19,9 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
+//        let core = CoreDataManager()
+//        let network = WeatherNetworkManager()
+//        let model = LocationsPageViewModel(coreDataManager: core, networkManager: network)
+//        let view = LocationsPageView(viewModel: model)
+//        window.rootViewController = LocationsPageView(viewModel: model)
+//        window.makeKeyAndVisible()
+//        self.window = window
         appCoordinator = AppCoordinator(window: window)
         appCoordinator.start()
-        let a = WeatherNetworkManager()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

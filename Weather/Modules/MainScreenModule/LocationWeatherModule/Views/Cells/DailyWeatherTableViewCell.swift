@@ -10,6 +10,8 @@ import SnapKit
 
 final class DailyWeatherTableViewCell: UITableViewCell {
     
+    // MARK: Subviews
+    
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
@@ -21,18 +23,13 @@ final class DailyWeatherTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    private let chanceRainLabel: UILabel = {
+    private let precipitationProbabilityLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 10)
+        label.font = .systemFont(ofSize: 9)
         label.textColor = .black
         return label
     }()
-    private let chanceImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
-    private let imageRainChanceStackView: UIStackView = {
+    private let imagePrecipitationProbabilityStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -58,6 +55,8 @@ final class DailyWeatherTableViewCell: UITableViewCell {
         return stackView
     }()
     
+    // MARK: lifeCycle
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
@@ -67,42 +66,49 @@ final class DailyWeatherTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Private
+    
     private func setupView() {
         
-        [minTempLabel, maxTempLabel].forEach {tempStackview.addArrangedSubview($0)}
-        imageRainChanceStackView.addArrangedSubview(weatherImageView)
         backgroundColor = .clear
+        
+        [minTempLabel, maxTempLabel].forEach {tempStackview.addArrangedSubview($0)}
+        imagePrecipitationProbabilityStackView.addArrangedSubview(weatherImageView)
+        
         contentView.addSubViews(dateLabel,
-                                imageRainChanceStackView,
+                                imagePrecipitationProbabilityStackView,
                                 tempStackview)
         
         dateLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().offset(20)
             make.width.equalTo(80)
         }
         weatherImageView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
         }
-        imageRainChanceStackView.snp.makeConstraints { make in
+        imagePrecipitationProbabilityStackView.snp.makeConstraints { make in
             make.leading.equalTo(dateLabel.snp.trailing).offset(20)
             make.centerY.equalToSuperview()
         }
         tempStackview.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(20)
             make.centerY.equalToSuperview()
+            make.width.equalTo(60)
         }
     }
     
-    func config(date: String, weatherImage: UIImage, chanceOfRain: String?, minTemp: String, maxTemp: String) {
-        self.dateLabel.text = date
-        self.weatherImageView.image = weatherImage
+    // MARK: Public
+    
+    func config(info: (date: String, weatherImage: UIImage, precipitationProbability: String?, minTemp: String, maxTemp: String)) {
+        self.dateLabel.text = info.date
+        self.weatherImageView.image = info.weatherImage
         
-        if let rainChance = chanceOfRain {
-            imageRainChanceStackView.addArrangedSubview(chanceRainLabel)
-            self.chanceRainLabel.text = "\(rainChance)\u{0025}"
+        if let precipitation = info.precipitationProbability {
+            imagePrecipitationProbabilityStackView.addArrangedSubview(precipitationProbabilityLabel)
+            self.precipitationProbabilityLabel.text = "\(precipitation)\u{0025}"
         }
-        self.minTempLabel.text = "\(minTemp)\u{00B0}"
-        self.maxTempLabel.text = "\(maxTemp)\u{00B0}"
+        self.minTempLabel.text = "\(info.minTemp)\u{00B0}"
+        self.maxTempLabel.text = "\(info.maxTemp)\u{00B0}"
     }
 }

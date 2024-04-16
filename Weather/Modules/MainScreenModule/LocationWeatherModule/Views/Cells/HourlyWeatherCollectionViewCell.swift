@@ -17,12 +17,12 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 17)
+        label.font = .systemFont(ofSize: 16)
         return label
     }()
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 17)
+        label.font = .systemFont(ofSize: 16)
         label.textColor = .black
         label.textAlignment = .center
         return label
@@ -32,6 +32,20 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
         imageView.tintColor = .red
         imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+    private let precipitationProbabilityLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 9)
+        label.textColor = .black
+        label.sizeToFit()
+        return label
+    }()
+    private let imagePrecipitationProbabilityStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 1
+        return stackView
     }()
     
     // MARK: lifeCycle
@@ -50,30 +64,36 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         
         backgroundColor = .clear
-        contentView.addSubViews(hourLabel,weatherImageView,tempLabel)
+        contentView.addSubViews(hourLabel,imagePrecipitationProbabilityStackView,tempLabel)
+        imagePrecipitationProbabilityStackView.addArrangedSubview(weatherImageView)
         
         hourLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.trailing.leading.equalToSuperview()
         }
         weatherImageView.snp.makeConstraints { make in
-            make.top.equalTo(hourLabel.snp.bottom).offset(7)
             make.width.height.equalTo(20)
-            make.centerX.equalToSuperview()
+        }
+        imagePrecipitationProbabilityStackView.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
         }
         tempLabel.snp.makeConstraints { make in
-            make.top.equalTo(weatherImageView.snp.bottom).offset(7)
             make.trailing.leading.equalToSuperview()
-            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
     }
     
     // MARK: Public
     
-    func configView(hour: String, weatherImage: UIImage, temperature: String) {
-        hourLabel.text = hour
-        weatherImageView.image = weatherImage
-        tempLabel.text = "\(temperature)\u{00B0}"
+    func configView(info : (hour: String, weatherImage: UIImage, temperature: String, precipitationProbability: String?)) {
+        hourLabel.text = info.hour
+        weatherImageView.image = info.weatherImage
+        tempLabel.text = "\(info.temperature)\u{00B0}"
+        
+        if let precipitation = info.precipitationProbability {
+            imagePrecipitationProbabilityStackView.addArrangedSubview(precipitationProbabilityLabel)
+            self.precipitationProbabilityLabel.text = "\(precipitation)\u{0025}"
+        }
     }
     
 }

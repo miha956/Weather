@@ -10,6 +10,8 @@ import CoreData
 
 protocol CoreDataManagerProtocol {
     
+    func updateWeatherData(locationId: String, weather: WeatherModel)
+    func fetchPlaces(complition: (Result<[Place], Error>) -> Void)
 }
 
 final class CoreDataManager: CoreDataManagerProtocol {
@@ -25,7 +27,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
         return container
     }()
     
-    func saveLocation(location: Place, complition: @escaping(Result<String, Error>) -> Void) {
+    func saveLocation(location: PlaceModel, complition: @escaping(Result<Place, Error>) -> Void) {
         
         persistentContainer.performBackgroundTask { backgroundContext in
             
@@ -34,12 +36,11 @@ final class CoreDataManager: CoreDataManagerProtocol {
             place.name = location.name
             place.latitude = location.latitude
             place.longitude = location.longitude
-            place.currentWeather = location.currentWeather
-            place.dailyWeather = location.dailyWeather
+            place.weatherData = location.weatherData
             place.updateDate = Date()
                 do {
                     try backgroundContext.save()
-                    complition(.success("place saved"))
+                    complition(.success(place))
                 } catch {
                     print(error.localizedDescription)
                     complition(.failure(CoreDataManagerError.saveDataError))
@@ -47,7 +48,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
             }
     }
     
-    func updateWeatherData(locationId: String, currentWeather: WeatherTodayModel, dailyWeather: WeatherDailyModel) {
+    func updateWeatherData(locationId: String, weather: WeatherModel) {
         persistentContainer.performBackgroundTask { backgroundContext in
             let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Place")
             fetchRequest.predicate = NSPredicate(format: "id = %@", locationId)
@@ -56,14 +57,10 @@ final class CoreDataManager: CoreDataManagerProtocol {
                 if let result = try backgroundContext.fetch(fetchRequest) as? [NSManagedObject], let place = result.first {
                     
                     do {
-                        let currentWeatherData = try JSONEncoder().encode(currentWeather)
-                        place.setValue(currentWeatherData, forKey: "currentWeather")
-                        
-                        let dailyWeatherData = try JSONEncoder().encode(dailyWeather)
-                        place.setValue(dailyWeatherData, forKey: "dailyWeather")
-                        
+                        let weatherData = try JSONEncoder().encode(weather)
+                        place.setValue(weatherData, forKey: "weatherData")
                         try backgroundContext.save()
-                        print("Данные успешно обновлены")
+                        print("Данные погоды успешно обновлены в кэше")
                         
                     } catch {
                         // error
@@ -72,7 +69,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
                     print("Объект с id \(locationId) не найден")
                 }
             } catch {
-                print("Ошибка при обновлении данных: \(error.localizedDescription)")
+                print("Ошибка при обновлении данных погоды в кэше: \(error.localizedDescription)")
             }
         }
     }
@@ -106,19 +103,14 @@ final class CoreDataManager: CoreDataManagerProtocol {
         }
     }
     
-    
+    func fetchPlaces(complition: (Result<[Place], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<Place> = Place.fetchRequest()
+        do {
+            let places = try persistentContainer.viewContext.fetch(fetchRequest)
+            complition(.success(places))
+        } catch {
+            complition(.failure(CoreDataManagerError.fetchRequestError))
+        }
+    }
 }
 
-//func saveContext () {
-//        let context = persistentContainer.viewContext
-//        if context.hasChanges {
-//            do {
-//                try context.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }

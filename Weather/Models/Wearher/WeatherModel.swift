@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - Weather
-struct WeatherTodayModel: Codable {
-    let latitude, longitude: Double
+// MARK: - Welcome
+struct WeatherModel: Codable {
+    let latitude, longitude, generationtimeMS: Double
     let utcOffsetSeconds: Int
     let timezone, timezoneAbbreviation: String
     let elevation: Int
@@ -17,9 +17,12 @@ struct WeatherTodayModel: Codable {
     let current: Current
     let hourlyUnits: HourlyUnits
     let hourly: Hourly
+    let dailyUnits: DailyUnits
+    let daily: Daily
 
     enum CodingKeys: String, CodingKey {
         case latitude, longitude
+        case generationtimeMS = "generationtime_ms"
         case utcOffsetSeconds = "utc_offset_seconds"
         case timezone
         case timezoneAbbreviation = "timezone_abbreviation"
@@ -28,38 +31,18 @@ struct WeatherTodayModel: Codable {
         case current
         case hourlyUnits = "hourly_units"
         case hourly
-    }
-}
-
-struct WeatherDailyModel: Codable {
-    let latitude, longitude: Double
-    let utcOffsetSeconds: Int
-    let timezone, timezoneAbbreviation: String
-    let elevation: Int
-    let dailyUnits: DailyUnits
-    let daily: Daily
-
-    enum CodingKeys: String, CodingKey {
-        case latitude, longitude
-        case utcOffsetSeconds = "utc_offset_seconds"
-        case timezone
-        case timezoneAbbreviation = "timezone_abbreviation"
-        case elevation
         case dailyUnits = "daily_units"
         case daily
     }
 }
 
-
-
 // MARK: - Current
 struct Current: Codable {
     let time: String
     let interval: Int
-    let temperature: Double
-    let relativeHumidity: Int
-    let apparentTemperature: Double
-    let isDay, precipitation, weatherCode, cloudCover: Int
+    let temperature, apparentTemperature: Double
+    let relativeHumidity, isDay, precipitation: Int
+    let weatherCode, cloudCover: Int
     let surfacePressure: Double
 
     enum CodingKeys: String, CodingKey {
@@ -97,8 +80,8 @@ struct CurrentUnits: Codable {
 // MARK: - Daily
 struct Daily: Codable {
     let time: [String]
-    let weatherCode: [Int]
-    let temperatureMax, temperatureMin: [Double]
+    let weatherCode, temperatureMax: [Double]
+    let temperatureMin: [Double]
     let sunrise, sunset: [String]
     let daylightDuration, sunshineDuration, precipitationSum: [Double]
     let precipitationProbabilityMax: [Int]
@@ -173,3 +156,4 @@ struct HourlyUnits: Codable {
         case cloudCover = "cloud_cover"
     }
 }
+

@@ -13,7 +13,7 @@ final class CurrentWeatherView: UIView {
     
     // MARK: SubViews
     
-    private let cityNameLabel: UILabel = {
+    private let locationNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
@@ -24,27 +24,36 @@ final class CurrentWeatherView: UIView {
         label.minimumScaleFactor = 0.7
         return label
     }()
+    let miniWearherPresenterLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 18)
+        label.alpha = 0
+        return label
+    }()
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.textColor = .black
-        label.font = .systemFont(ofSize: 40)
+        label.font = .systemFont(ofSize: 50, weight: .light)
+        label.sizeToFit()
         return label
     }()
     private let weatherDescriptionLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
     private let tempMinLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
     private let tempMaxLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
     private let tempStackview: UIStackView = {
@@ -53,6 +62,8 @@ final class CurrentWeatherView: UIView {
         stackView.alignment = .center
         return stackView
     }()
+    private var animatedConstraint: NSLayoutConstraint!
+    private let maxConstraintConstant: CGFloat = 25
     
     // MARK: lifeCycle
     
@@ -69,24 +80,30 @@ final class CurrentWeatherView: UIView {
     
     private func setupView() {
         
-        addSubViews(cityNameLabel,temperatureLabel,weatherDescriptionLabel,tempStackview)
+        addSubViews(locationNameLabel,miniWearherPresenterLabel,temperatureLabel,weatherDescriptionLabel,tempStackview)
         tempStackview.addArrangedSubview(tempMaxLabel)
         tempStackview.addArrangedSubview(tempMinLabel)
         
-        cityNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(20)
+        
+        animatedConstraint = locationNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: maxConstraintConstant)
+        animatedConstraint.isActive = true
+        locationNameLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+        }
+        miniWearherPresenterLabel.snp.makeConstraints { make in
+            make.top.equalTo(locationNameLabel.snp.bottom)
             make.centerX.equalToSuperview()
         }
         temperatureLabel.snp.makeConstraints { make in
-            make.top.equalTo(cityNameLabel.snp.bottom).offset(15)
+            make.top.equalTo(locationNameLabel.snp.bottom)
             make.centerX.equalToSuperview()
         }
         weatherDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(temperatureLabel.snp.bottom).offset(10)
+            make.top.equalTo(temperatureLabel.snp.bottom)
             make.centerX.equalToSuperview()
         }
         tempStackview.snp.makeConstraints { make in
-            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(10)
+            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(2)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview { $0.snp.bottom }
         }
@@ -94,12 +111,21 @@ final class CurrentWeatherView: UIView {
     
     // MARK: PUblic
     
-    func confingView(cityName: String, temperature: String, weatherDescription: String, tempMax: String, tempMin: String) {
-        cityNameLabel.text = cityName
-        temperatureLabel.text = "\(temperature)\u{00B0}"
-        weatherDescriptionLabel.text = weatherDescription
-        tempMaxLabel.text = "Макс.:\(tempMax)\u{00B0},"
-        tempMinLabel.text = "Мин.:\(tempMin)\u{00B0}"
+    func confingView(info: (locationName: String, temperature: String, weatherDescription: String, tempMax: String, tempMin: String)) {
+        locationNameLabel.text = info.locationName
+        miniWearherPresenterLabel.text = "\(info.temperature)\u{00B0} | \(info.weatherDescription)"
+        temperatureLabel.text = "\(info.temperature)\u{00B0}"
+        weatherDescriptionLabel.text = info.weatherDescription
+        tempMaxLabel.text = "Макс.:\(info.tempMax)\u{00B0},"
+        tempMinLabel.text = "Мин.:\(info.tempMin)\u{00B0}"
+    }
+    
+    func squeezeView(animationCompletionPercent: CGFloat) {
+        tempStackview.alpha = 5 * (0.41 - animationCompletionPercent)
+        weatherDescriptionLabel.alpha = 5 * (0.62 - animationCompletionPercent)
+        temperatureLabel.alpha = 5 * (0.8 - animationCompletionPercent)
+        miniWearherPresenterLabel.alpha = (animationCompletionPercent - 0.89) * 10
+        animatedConstraint.constant = maxConstraintConstant - animationCompletionPercent * 30
     }
     
 }

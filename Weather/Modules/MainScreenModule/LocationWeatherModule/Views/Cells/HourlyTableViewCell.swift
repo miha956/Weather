@@ -14,7 +14,7 @@ final class HourlyTableViewCell: UITableViewCell {
     private let hourlyCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = .init(width: 30, height: 75)
+        layout.itemSize = .init(width: 40, height: 77)
         layout.sectionInset.left = 10
         layout.sectionInset.right = 10
         layout.minimumLineSpacing = 15
@@ -51,5 +51,6 @@ final class HourlyTableViewCell: UITableViewCell {
     func collectionViewDataSourceDelegate(dataSourceDelegate: UICollectionViewDataSource & UICollectionViewDelegate) {
         hourlyCollectionView.delegate = dataSourceDelegate
         hourlyCollectionView.dataSource = dataSourceDelegate
+        hourlyCollectionView.reloadData()
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class MainScreenCoordinator: Coordinator {
     
@@ -22,8 +23,10 @@ class MainScreenCoordinator: Coordinator {
     }
     
     func start() {
-        let viewModel = LocationWeatherViewModel()
-        let viewController = LocationWeatherView(viewModel: viewModel)
+        let networkManager = WeatherNetworkManager()
+        let coreDataManaager = CoreDataManager()
+        let viewModel = LocationsPageViewModel(coreDataManager: coreDataManaager, networkManager: networkManager)
+        let viewController = LocationsPageView(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: true)
     }
 }
