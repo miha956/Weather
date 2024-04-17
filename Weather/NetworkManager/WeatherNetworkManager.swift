@@ -88,6 +88,7 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
                     let data = try JSONDecoder().decode(T.self, from: data)
                     response(data, nil)
                   } catch let jsonError {
+                      print(jsonError)
                       response(nil, jsonError)
                   }
               case .failure(let error):
@@ -99,7 +100,7 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
     private func fetchData<T: Decodable>(url: String, complition: @escaping(Result<T, Error>) -> Void) {
         decodeData(urlString: url) { (data: T?, error) in
             if let error = error {
-                complition(.failure(error))
+                complition(.failure(NetworkMangerError.decodeError))
             } else {
                 guard let data = data else {
                     complition(.failure(NetworkMangerError.noData))

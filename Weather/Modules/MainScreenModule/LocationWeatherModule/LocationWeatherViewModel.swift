@@ -131,11 +131,10 @@ final class LocationWeatherViewModel: LocationWeatherViewModelProtocol {
         let weatherImage = UIImage(named: "weatherCode-0")!
         let temp = "\(weatherData.hourly.temperature[index].toInt)"
         var precipitationProbability: String? {
-            if weatherData.hourly.precipitationProbability[index] < 10 {
+            guard let probability = weatherData.hourly.precipitationProbability[index] else {
                 return nil
-            } else {
-                return "\(weatherData.hourly.precipitationProbability[index])"
             }
+            return probability < 10 ? nil : "\(probability)"
         }
         return (hour: hour, weatherImage: weatherImage, temperature: temp, precipitationProbability: precipitationProbability)
     }
@@ -146,11 +145,10 @@ final class LocationWeatherViewModel: LocationWeatherViewModelProtocol {
         //let weatherImage = UIImage(named: "weatherCode-\(dailyWeather.daily.weatherCode[indexPath.row])")!
         let weatherImage = UIImage(named: "weatherCode-0")!
         var precipitationProbability: String? {
-            if weatherData.daily.precipitationProbabilityMax[indexPath.row] < 10 {
+            guard let probability = weatherData.daily.precipitationProbabilityMax[indexPath.row] else {
                 return nil
-            } else {
-                return "\(weatherData.daily.precipitationProbabilityMax[indexPath.row])"
             }
+            return probability < 10 ? nil : "\(probability)"
         }
         let minTemp = "\(weatherData.daily.temperatureMin[indexPath.row].toInt)"
         let maxTemp = "\(weatherData.daily.temperatureMax[indexPath.row].toInt)"

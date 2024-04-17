@@ -67,6 +67,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A90017A52BD071CD00BAA7A1 /* oldPageView */ = {isa = PBXFileReference; lastKnownFileType = text; path = oldPageView; sourceTree = "<group>"; };
 		A9A5C7A72BC4739700F5AA0A /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
 		A9A5C7A92BC4753500F5AA0A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		A9A5C7AB2BC4765600F5AA0A /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
@@ -177,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				A9A5C7E22BCDC9BA00F5AA0A /* LocationsPageView.swift */,
+				A90017A52BD071CD00BAA7A1 /* oldPageView */,
 				A9A5C7E42BCDC9E200F5AA0A /* LocationsPageViewModel.swift */,
 			);
 			path = PageViewModule;

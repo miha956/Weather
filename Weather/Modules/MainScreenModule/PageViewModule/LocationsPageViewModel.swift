@@ -11,6 +11,8 @@ import UIKit
 protocol LocationsPageViewModelProtocol {
     
     var views:[UIViewController]  {get}
+    func goToAddLocationView()
+    func presentSideMenu()
 
 }
 
@@ -20,6 +22,7 @@ final class LocationsPageViewModel: LocationsPageViewModelProtocol {
     
     private let coreDataManager: CoreDataManagerProtocol
     private let networkManager: WeatherNetworkManagerProtocol
+    var coordinator: MainScreenCoordinator?
     var views: [UIViewController] = {
         return []
     }()
@@ -36,9 +39,9 @@ final class LocationsPageViewModel: LocationsPageViewModelProtocol {
         print("LocationsPageViewModel deinit")
     }
     
-    // MARK: Public Methods
+    // MARK: Private Methods
     
-    func fetchLocations() {
+    private func fetchLocations() {
         
         coreDataManager.fetchPlaces { result in
             switch result {
@@ -54,5 +57,14 @@ final class LocationsPageViewModel: LocationsPageViewModelProtocol {
                 print("\(error)")
             }
         }
+    }
+    
+    // MARK: Public Methods
+    
+    func goToAddLocationView() {
+        coordinator?.showAddLocationView()
+    }
+    func presentSideMenu() {
+        
     }
 }

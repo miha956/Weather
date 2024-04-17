@@ -10,11 +10,16 @@ import UIKit
 
 final class SearchLocationView: UIViewController {
     
+    // MARK: Properties
+
+    private let viewModel: SearchLocationViewModelProtocol
+    
+    // MARK: SubViews
+    
     private let headerTitle: UILabel = {
         let cityLabel = UILabel()
-        cityLabel.translatesAutoresizingMaskIntoConstraints = false
         cityLabel.text = "Погода"
-        cityLabel.textColor = .white
+        cityLabel.textColor = .black
         return cityLabel
     }()
     let searchBar: UISearchBar = {
@@ -44,10 +49,26 @@ final class SearchLocationView: UIViewController {
           return searchResultsTable
       }()
     
+    // MARK: lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    init(viewModel: SearchLocationViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     deinit {
         print("SearchLocationView deinit")
+    }
+    
+    // MARK: Private
+    
+    private func setupView() {
+        
     }
 }

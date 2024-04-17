@@ -84,7 +84,7 @@ struct Daily: Codable {
     let temperatureMin: [Double]
     let sunrise, sunset: [String]
     let daylightDuration, sunshineDuration, precipitationSum: [Double]
-    let precipitationProbabilityMax: [Int]
+    let precipitationProbabilityMax: [Int?]
 
     enum CodingKeys: String, CodingKey {
         case time
@@ -124,7 +124,8 @@ struct Hourly: Codable {
     let temperature: [Double]
     let relativeHumidity: [Int]
     let apparentTemperature: [Double]
-    let precipitationProbability, weatherCode: [Int]
+    let precipitationProbability: [Int?]
+    let weatherCode: [Int]
     let surfacePressure: [Double]
     let cloudCover: [Int]
 

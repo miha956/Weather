@@ -49,11 +49,13 @@ final class CurrentWeatherView: UIView {
     private let tempMinLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
+        label.textAlignment = .center
         return label
     }()
     private let tempMaxLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
+        label.textAlignment = .center
         return label
     }()
     private let tempStackview: UIStackView = {

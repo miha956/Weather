@@ -29,4 +29,8 @@ class MainScreenCoordinator: Coordinator {
         let viewController = LocationsPageView(viewModel: viewModel)
         navigationController.setViewControllers([viewController], animated: true)
     }
+    
+    func showAddLocationView() {
+        
+    }
 }

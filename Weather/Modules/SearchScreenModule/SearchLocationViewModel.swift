@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+protocol SearchLocationViewModelProtocol {
+    
+}
+
+final class SearchLocationViewModel {
+    
+}

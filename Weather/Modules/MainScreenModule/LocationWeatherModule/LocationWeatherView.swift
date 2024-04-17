@@ -43,32 +43,14 @@ class LocationWeatherView: UIViewController {
         indicator.isHidden = true
         return indicator
     }()
-    private lazy var addCityBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: nil,
-                                        style: .plain,
-                                        target: self,
-                                        action: nil)
-        return button
-    }()
-    private lazy var cideMenuBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: nil,
-                                        style: .plain,
-                                        target: self,
-                                        action: nil)
-        return button
-    }()
     
     // MARK: lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
-        bindViewModel()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         viewModel.fetchWeatherData()
+        bindViewModel()
     }
 
     init(viewModel: LocationWeatherViewModelProtocol) {
@@ -114,9 +96,7 @@ class LocationWeatherView: UIViewController {
     
     private func setupView() {
         
-        view.backgroundColor = .lightGray
-        navigationItem.rightBarButtonItem = addCityBarButton
-        navigationItem.leftBarButtonItem = cideMenuBarButton
+        view.backgroundColor = .white
         addSubViews(currentWeatherView,weatherTableView,activityIndicator)
         
         currentWeatherView.snp.makeConstraints { make in
@@ -187,46 +167,46 @@ extension LocationWeatherView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-            let cornerRadius : CGFloat = 15.0
-            cell.backgroundColor = UIColor.clear
-            let layer: CAShapeLayer = CAShapeLayer()
-            let pathRef:CGMutablePath = CGMutablePath()
-            let bounds: CGRect = cell.bounds.insetBy(dx:0,dy:0)
-            var addLine: Bool = false
+        let cornerRadius : CGFloat = 20.0
+        cell.backgroundColor = UIColor.clear
+        let layer: CAShapeLayer = CAShapeLayer()
+        let pathRef:CGMutablePath = CGMutablePath()
+        let bounds: CGRect = cell.bounds.insetBy(dx:0,dy:0)
+        var addLine: Bool = false
+        
+        if (indexPath.row == 0 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
+            pathRef.addRoundedRect(in: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
+        } else if (indexPath.row == 0) {
+            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.maxY))
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.minY), tangent2End: CGPoint(x: bounds.midX, y: bounds.midY), radius: cornerRadius)
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.minY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
+            pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.maxY) )
+            addLine = true
+        } else if (indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
+            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY), transform: CGAffineTransform())
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY), radius: cornerRadius)
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
+            pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.minY) )
             
-            if (indexPath.row == 0 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
-                pathRef.addRoundedRect(in: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
-            } else if (indexPath.row == 0) {
-                pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.maxY))
-                pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.minY), tangent2End: CGPoint(x: bounds.midX, y: bounds.midY), radius: cornerRadius)
-                pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.minY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
-                pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.maxY) )
-                addLine = true
-            } else if (indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
-                pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY), transform: CGAffineTransform())
-                pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY), radius: cornerRadius)
-                pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
-                pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.minY) )
-                
-            } else {
-                pathRef.addRect(bounds)
-                addLine = true
-            }
-            layer.path = pathRef
-            layer.fillColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.8).cgColor
-            
-            if (addLine == true) {
-                let lineLayer: CALayer = CALayer()
-                let lineHeight: CGFloat = (1.0 / UIScreen.main.scale)
-                lineLayer.frame = CGRect(x:bounds.minX + 10 , y:bounds.size.height-lineHeight, width:bounds.size.width-10, height:lineHeight)
-                lineLayer.backgroundColor = tableView.separatorColor?.cgColor
-                layer.addSublayer(lineLayer)
-            }
-            let testView: UIView = UIView(frame: bounds)
-            testView.layer.insertSublayer(layer, at: 0)
-            testView.backgroundColor = UIColor.clear
-            cell.backgroundView = testView
+        } else {
+            pathRef.addRect(bounds)
+            addLine = true
         }
+        layer.path = pathRef
+        layer.fillColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.8).cgColor
+        
+        if (addLine == true) {
+            let lineLayer: CALayer = CALayer()
+            let lineHeight: CGFloat = (1.0 / UIScreen.main.scale)
+            lineLayer.frame = CGRect(x:bounds.minX + 10 , y:bounds.size.height-lineHeight, width:bounds.size.width-10, height:lineHeight)
+            lineLayer.backgroundColor = tableView.separatorColor?.cgColor
+            layer.addSublayer(lineLayer)
+        }
+        let view: UIView = UIView(frame: bounds)
+        view.layer.insertSublayer(layer, at: 0)
+        view.backgroundColor = UIColor.clear
+        cell.backgroundView = view
+    }
 }
 
     // MARK: ScrollView

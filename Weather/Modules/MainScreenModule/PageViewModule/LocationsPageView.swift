@@ -4,7 +4,7 @@
 //
 //  Created by Миша Вашкевич on 15.04.2024.
 //
-
+//
 import Foundation
 import UIKit
 import SnapKit
@@ -22,38 +22,45 @@ final class LocationsPageView: UIViewController {
     }
     
     // MARK: SubViews
-    
-    private let locationsListButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("list", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    private lazy var pageControl: UIPageControl = {
-        let pageControl = UIPageControl()
-        pageControl.backgroundColor = .red
-        pageControl.numberOfPages = numberOfPages
-        pageControl.addTarget(self,
-                              action: #selector(pageControlChanged),
-                              for: .valueChanged)
-        return pageControl
-    }()
-    private lazy var scrollView: UIScrollView = {
-        let view = UIScrollView()
-        view.backgroundColor = .clear
+    private lazy var pageViewController: UIPageViewController = {
+        let view = UIPageViewController(transitionStyle: .scroll,
+                                        navigationOrientation: .horizontal)
         view.delegate = self
-        view.isPagingEnabled = true
+        view.dataSource = self
+        if let firstViewController = locationView.first {
+            view.setViewControllers([firstViewController], 
+                                    direction: .forward,
+                                    animated: true,
+                                    completion: nil)
+        }
         return view
     }()
-    
+    private lazy var addLocationButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("+", for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(addLOcationButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    private lazy var cideMenuButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("=", for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(showSideMenu), for: .touchUpInside)
+        return button
+    }()
+    private lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.backgroundColor = .white
+        pageControl.numberOfPages = numberOfPages
+        pageControl.pageIndicatorTintColor = .lightGray
+        pageControl.currentPageIndicatorTintColor = .black
+        pageControl.addTarget(self, action: #selector(pageControlTapped), for: .valueChanged)
+        return pageControl
+    }()
     // MARK: lifeCycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(locationView)
         setupView()
     }
     
@@ -65,50 +72,85 @@ final class LocationsPageView: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     // MARK: Private
     
-    private func setupView() {
-        
+    func setupView() {
         navigationController?.isNavigationBarHidden = true
-        
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(locationView.count), height: scrollView.frame.height)
-        addSubViews(pageControl,scrollView)
-        for i in 0...locationView.count - 1 {
-            scrollView.addSubview(locationView[i].view)
-            locationView[i].view.snp.makeConstraints { make in
-                make.top.equalToSuperview()
-                make.width.equalTo(self.view)
-                make.height.equalToSuperview()
-                make.leading.equalTo(CGFloat(i) * self.view.frame.size.width)
-            }
-        }
+        view.backgroundColor = .clear
+        addChild(pageViewController)
+        addSubViews(pageControl, pageViewController.view,addLocationButton,cideMenuButton)
         
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(50)
+            make.trailing.equalTo(addLocationButton.snp.leading)
+            make.leading.equalTo(cideMenuButton.snp.trailing)
+            make.height.equalTo(40)
         }
-        scrollView.snp.makeConstraints { make in
+        addLocationButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalTo(pageControl)
+            make.height.width.equalTo(40)
+        }
+        cideMenuButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.centerY.equalTo(pageControl)
+            make.height.width.equalTo(40)
+        }
+        pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     // MARK: Actions
     
-    @objc private func pageControlChanged(sender: UIPageControl) {
+    @objc private func addLOcationButtonTapped() {
+        viewModel.goToAddLocationView()
+    }
+    @objc private func showSideMenu() {
+        viewModel.presentSideMenu()
+    }
+    @objc func pageControlTapped(_ sender: UIPageControl) {
         let currentPage = sender.currentPage
-        scrollView.setContentOffset(CGPoint(x: CGFloat(currentPage) * view.frame.size.width, y: 0), animated: true)
+        pageViewController.setViewControllers([locationView[currentPage]], direction: .forward, animated: true)
     }
 }
 
-    // MARK: UIScrollViewDelegate
+    // MARK: PageView Delegate&DataSource
 
-extension LocationsPageView: UIScrollViewDelegate {
+extension LocationsPageView: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        if let index = locationView.firstIndex(of: viewController) {
+            if index > 0 {
+                return locationView[index - 1]
+            }
+        }
+        return nil
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        if let index = locationView.firstIndex(of: viewController) {
+            if index < locationView.count - 1 {
+                return locationView[index + 1]
+            }
+        }
+        return nil
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        guard let firstViewController = pendingViewControllers.first,
+              let index = locationView.firstIndex(of: firstViewController) else {
+            return
+        }
+        pageControl.currentPage = index
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let firstViewController = pageViewController.viewControllers?.first,
+              let index = locationView.firstIndex(of: firstViewController) else {
+            return
+        }
+        pageControl.currentPage = index
     }
 }
